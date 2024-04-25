@@ -24,10 +24,10 @@
     - name: Create inventory.ini file if absent
       copy:
         content: |
-          # Empty inventory file created by Ansible playbook
+          # Inventory file created by Ansible playbook
         dest: inventory.ini
       when: ini_file.stat.exists == False
-        
+
     - name: Generate INI inventory
       copy:
         content: |
@@ -52,4 +52,3 @@
       file:
         path: inv.yaml
         state: absent
-      
