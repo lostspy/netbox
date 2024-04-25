@@ -16,10 +16,17 @@
       set_fact:
         json_inventory: "{{ yaml_inventory.content | b64decode | from_yaml }}"
 
-    - name: Clean up existing inventory.ini file if present
-      file:
+    - name: Check if inventory.ini exists
+      stat:
         path: inventory.ini
-        state: absent
+      register: ini_file
+
+    - name: Create inventory.ini file if absent
+      copy:
+        content: |
+          # Empty inventory file created by Ansible playbook
+        dest: inventory.ini
+      when: ini_file.stat.exists == False
         
     - name: Generate INI inventory
       copy:
