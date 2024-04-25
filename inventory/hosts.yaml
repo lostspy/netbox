@@ -1,0 +1,48 @@
+---
+- name: Create INI inventory from YAML
+  hosts: localhost
+  gather_facts: false
+  ignore_errors: true
+  tasks:
+    - name: Create YAML inventory if not exists
+      shell: "ansible-inventory -i netbox_inventory.yaml --list -y > inv.yaml"
+      
+    - name: Read YAML inventory
+      slurp:
+        src: inv.yaml
+      register: yaml_inventory
+
+    - name: Convert YAML to JSON
+      set_fact:
+        json_inventory: "{{ yaml_inventory.content | b64decode | from_yaml }}"
+
+    - name: Clean up existing inventory.ini file if present
+      file:
+        path: inventory.ini
+        state: absent
+        
+    - name: Generate INI inventory
+      copy:
+        content: |
+          {% for group, group_data in json_inventory.all.children.items() %}
+          
+          {% if group_data.children %}
+          [{{ group }}]
+          
+          {% for site, site_data in group_data.children.items() %}
+          {% if site_data.hosts %}
+          [{{ site }}]
+          {% for host, host_data in site_data.hosts.items() %}
+          {{ host }}
+          {% endfor %}
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+          {% endfor %}
+        dest: inventory.ini
+
+    - name: Remove inv.yaml file
+      file:
+        path: inv.yaml
+        state: absent
+      
