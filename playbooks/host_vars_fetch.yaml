@@ -4,7 +4,7 @@
   tasks:
     - name: Ensure host_vars directory exists
       ansible.builtin.file:
-        path: "./host_vars"
+        path: "../host_vars"
         state: directory
         mode: '0755'
 
@@ -23,8 +23,8 @@
 
     - name: Generate host_vars file from VM data
       ansible.builtin.template:
-        src: netbox_vm_template.j2
-        dest: "./host_vars/{{ item.name }}.yaml"
+        src: "../templates/netbox_vm_template.j2"
+        dest: "../host_vars/{{ item.name }}.yaml"
       loop: "{{ netbox_response.json.results }}"
       loop_control:
         label: "{{ item.name }}"
