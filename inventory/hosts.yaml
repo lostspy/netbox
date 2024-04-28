@@ -4,6 +4,15 @@
   gather_facts: false
   ignore_errors: true
   tasks:
+    - name: Include variables file
+      include_vars:
+        file: ../ansible_vault/netbox-token.yaml
+
+    - name: create an netbox_inventory file
+      template:
+        src: ../templates/netbox_inventory.j2
+        dest: ./netbox_inventory.yaml
+
     - name: Create YAML inventory if not exists
       shell: "ansible-inventory -i netbox_inventory.yaml --list -y > inv.yaml"
       
@@ -26,29 +35,25 @@
         content: |
           # Inventory file created by Ansible playbook
         dest: inventory.ini
-      when: ini_file.stat.exists == False
+      when: ini_file.stat.exists == false
 
     - name: Generate INI inventory
       copy:
         content: |
-          {% for group, group_data in json_inventory.all.children.items() %}
+          {% for site_name, site_data in json_inventory.all.children.items() %}
           
-          {% if group_data.children %}
-          [{{ group }}]
+          [{{ site_name }}]
           
-          {% for site, site_data in group_data.children.items() %}
-          {% if site_data.hosts %}
-          [{{ site }}]
-          {% for host, host_data in site_data.hosts.items() %}
-          {{ host }}
+          {% for host_name, host_data in site_data.hosts.items() %}
+          {{ host_name }}
           {% endfor %}
-          {% endif %}
-          {% endfor %}
-          {% endif %}
           {% endfor %}
         dest: inventory.ini
 
     - name: Remove inv.yaml file
       file:
-        path: inv.yaml
+        path: "{{ item }}"
         state: absent
+      loop:
+        - inv.yml
+        - netbox_inventory.yaml
