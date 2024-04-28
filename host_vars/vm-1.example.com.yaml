@@ -1,0 +1,18 @@
+---
+# Host variables for vm-1.example.com
+cluster_name: "example-cluster01"
+vm_name: "vm-1.example.com"
+memory: "2"
+vcpus: "1.0"
+disk: "8"
+operating_system: "Unknown"
+status: "Active"
+site: "example.com"
+tenant: "Unknown"
+
+# Site Information
+site_name: "example.com"
+site_description: "Unknown"
+site_physical_address: "Unknown"
+site_shipping_address: "Unknown"
+site_status: "Unknown"
