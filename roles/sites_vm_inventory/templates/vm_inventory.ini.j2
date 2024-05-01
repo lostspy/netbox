@@ -1,0 +1,11 @@
+{% for site in site_names %}
+
+[{{ site }}]
+
+{% for vm in netbox_vms.json.results %}
+{% if vm.site is defined and vm.site.name is defined and vm.site.name == site %}
+{{ vm.name }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+

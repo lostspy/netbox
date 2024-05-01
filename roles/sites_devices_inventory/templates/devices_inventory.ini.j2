@@ -1,0 +1,11 @@
+{% for site in site_names %}
+
+[{{ site }}]
+
+{% for device in netbox_devices.json.results %}
+{% if device.site and device.site.name == site %}
+{{ device.name }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+
