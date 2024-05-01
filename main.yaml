@@ -5,4 +5,4 @@
   tasks:
     - name: Example task
       ansible.builtin.debug:
-        msg: "NETBOX_API is $NETBOX_API, NETBOX_TOKEN is $NETBOX_TOKEN"
+        msg: "NETBOX_API is {{ lookup('env', 'NETBOX_API') }}, NETBOX_TOKEN is {{ lookup('env', 'NETBOX_TOKEN') }}"
