@@ -16,6 +16,9 @@
         role_to_execute: "sites_devices_inventory"
       when: inventory_type == "devices"
 
+    - set_fact:
+      role_to_execute: "sites_devices_inventory"
+
     - name: Execute the determined role
       include_role:
         name: "{{ role_to_execute }}"
