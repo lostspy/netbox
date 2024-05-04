@@ -16,8 +16,20 @@
   file:
     path: "roles/sites_devices_inventory/hosts/"
     state: directory
+- name: Debug - Check if directory exists
+  stat:
+    path: "roles/sites_devices_inventory/hosts/"
+  register: directory_exists
+
+- name: Debug - Check directory existence result
+  debug:
+    var: directory_exists
 
 - name: Copy VM inventory template
   template:
     src: devices_inventory.ini.j2
     dest: "roles/sites_devices_inventory/hosts/devices_inventory.ini"
+
+- name: Debug - Check copied file
+  shell: cat roles/sites_devices_inventory/hosts/devices_inventory.ini
+  ignore_errors: true
