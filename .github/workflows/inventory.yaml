@@ -35,6 +35,9 @@ jobs:
         env:
           ANSIBLE_CONFIG: ansible.cfg
 
+      - name: Remove the sensitive information from repo
+        run: rm -rvf env.list
+
       - name: Commit changes
         run: |
           git config --local user.email "actions@github.com"
@@ -42,6 +45,3 @@ jobs:
           git add .
           git commit -m "Update devices inventory"
           git push origin main
-
-      - name: Remove the sensitive information from repo
-        run: rm -rvf env.list
