@@ -42,3 +42,6 @@ jobs:
           git add .
           git commit -m "Update devices inventory"
           git push origin main
+
+      - name: Remove the sensitive information from repo
+        run: rm -rvf env.list
