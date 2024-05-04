@@ -2,23 +2,11 @@
 - name: Main playbook
   hosts: localhost
   gather_facts: false
-  vars_prompt:
-    - name: inventory_type
-      prompt: "Which inventory type do you want to generate? (devices/vms)"
-      private: no
   tasks:
-    - name: Determine the role to execute
-      set_fact:
-        role_to_execute: "sites_vm_inventory"
-      when: inventory_type == "vms"
-
-    - set_fact:
-        role_to_execute: "sites_devices_inventory"
-      when: inventory_type == "devices"
-
-    - set_fact:
-        role_to_execute: "sites_devices_inventory"
-
-    - name: Execute the determined role
+    - name: executing site_vms role
       include_role:
-        name: "{{ role_to_execute }}"
+        name: sites_vm_inventory
+
+    - name: executing site_devices role
+      include_role:
+        name: sites_devices_inventory
