@@ -31,7 +31,7 @@ jobs:
       
       - name: Run Ansible playbook with secrets as variables
         run: |
-          ansible-playbook main1.yaml --extra-vars "@env.list" -v
+          ansible-playbook main.yaml --extra-vars "@env.list" -v
         env:
           ANSIBLE_CONFIG: ansible.cfg
 
@@ -39,6 +39,6 @@ jobs:
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git add roles/sites_devices_inventory/hosts/devices_inventory.ini
+          git add .
           git commit -m "Update devices inventory"
           git push origin main
