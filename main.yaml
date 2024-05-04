@@ -1,8 +1,0 @@
----
-- name: Main playbook
-  hosts: localhost
-  gather_facts: false
-  tasks:
-    - name: Example task
-      ansible.builtin.debug:
-        msg: "NETBOX_API is {{ lookup('env', 'NETBOX_API') }}, NETBOX_TOKEN is {{ lookup('env', 'NETBOX_TOKEN') }}"
